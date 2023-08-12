@@ -1,0 +1,45 @@
+@import "bootstrap-5.3.0.less";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css");
+
+
+input[type=text],
+input[type="email"],
+input[type=password],
+input[type=number],
+textarea {
+  font-family: monospace;
+}
+
+.grid-cols-2 {
+  display: grid;
+  grid-template: auto / max-content 1fr;
+  .gap-2
+}
+
+.form-grid {
+  display: grid;
+  grid-template: auto / max-content 1fr;
+  margin: 0.5rem;
+  align-items: top;
+  gap: 0.75rem;
+}
+
+.form-grid > label {
+  margin-top: 0.2rem;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+}
+
+dialog {
+  .border;
+  .shadow;
+  .rounded;
+}
+
+dialog > div.title {
+  .fs-3;
+}
