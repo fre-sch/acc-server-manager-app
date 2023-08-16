@@ -1,16 +1,17 @@
 <script>
   import classnames from "classnames/dedupe"
+  import isNil from "lodash/isNil"
 
   export let id;
   export let name;
-  export let label;
-  export let description;
-  export let schema;
-  export let getFieldValue;
+  export let label = null
+  export let description = null
+  export let schema = null
+  export let getFieldValue = () => {}
 
 </script>
 
-{#if (label !== undefined)}
+{#if (!isNil(label))}
   <label for={id} class={classnames("form-label")}>
     {label}
   </label>

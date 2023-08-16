@@ -1,4 +1,6 @@
 <script>
+  import isNil from "lodash/isNil"
+
   export let prefix;
   export let postfix;
   let isGroup = prefix !== undefined || postfix !== undefined
@@ -6,11 +8,11 @@
 
 {#if (isGroup)}
 <div class="input-group">
-  {#if (prefix !== undefined)}
+  {#if (!isNil(prefix))}
     <span class="input-group-text">{prefix}</span>
   {/if}
   <slot />
-  {#if (postfix !== undefined)}
+  {#if (!isNil(postfix))}
     <span class="input-group-text">{postfix}</span>
   {/if}
 </div>

@@ -2,57 +2,46 @@
   import ApiConnector from "$lib/apiConnector.js"
   import DataTable from "$lib/dataTable/dataTable.svelte"
   import DateRelativeCell from "$lib/dataTable/dateRelativeCell.svelte"
+  import NavigateCell from "$lib/dataTable/navigateCell.svelte"
   import { initSortableColumns, toApiSort, newSortQueryStore } from "$lib/dataTable/utils.js"
+  import JsonPointer from "json-pointer"
 
   let columns = [
     {
-      header: {
-        title: "ID"
-      },
+      header: { title: "ID" },
       body: {
-        value: "id",
+        view: NavigateCell,
+        href: (item) => "/event/" + item.id,
+        content: (item) => `${item.id} <i class="ms-1 me-1 bi bi-arrow-up-right-square"/>`
       },
-      width: 0.5,
-      sortable: "id",
+      width: 1
     },
     {
-      header: {
-        title: "Name"
-      },
-      body: {
-        value: "name",
-      },
+      header: { title: "Name" },
+      body: { value: "/name", },
       width: 3,
       filterable: "name",
       sortable: "name",
     },
     {
-      header: {
-        title: "Track",
-      },
-      body: {
-        value: "track",
-      },
+      header: { title: "Track", },
+      body: { value: "/track", },
       width: 3,
       filterable: "track",
       sortable: "track",
     },
     {
-      header: {
-        title: "Sessions",
-      },
+      header: { title: "Sessions", },
       body: {
         value: (row) => `${row.sessions.length}: ${row.sessions.map(it => it.name).join(", ")}`,
       },
       width: 6,
     },
     {
-      header: {
-        title: "Created",
-      },
+      header: { title: "Created", },
       body: {
         view: DateRelativeCell,
-        value: "created"
+        value: "/created"
       },
       width: 2,
       sortable: "created",
@@ -60,7 +49,6 @@
   ]
   let sortQueryStore = newSortQueryStore(columns)
   initSortableColumns(columns, sortQueryStore)
-
 
   async function fetchData(currentSort) {
     const response = await ApiConnector
@@ -73,4 +61,7 @@
 
 </script>
 
-<DataTable {columns} getItems={fetchData($sortQueryStore)} />
+<DataTable
+  {columns}
+  getItems={fetchData($sortQueryStore)}
+  getValue={JsonPointer.get}/>

@@ -1,12 +1,12 @@
 <script>
   import classnames from "classnames/dedupe"
-  import get from "lodash/get"
   import isArray from "lodash/isArray"
   import Spinner from "$lib/spinner.svelte"
 
   export let columns = []
   export let getItems = async function() { return [] }
   export let rowClicked = () => {}
+  export let getValue = () => {}
 
   function _number(val) {
     try {
@@ -30,7 +30,7 @@
   <table class="table table-hover table-sm p-0 table-fixed">
     <colgroup>
       {#each columnFractions() as fract, index}
-        <col key={index} style={{ width: `${fract}%` }} />
+        <col key={index} style:width={`${fract}%`} />
       {/each}
     </colgroup>
     <thead class="table-light">
@@ -59,14 +59,14 @@
     {:then items}
       <tbody>
         {#each items as item, index}
-          <tr key={index} on:click|preventDefault={() => rowClicked(item)}>
+          <tr key={index}>
             {#each columns as column}
               {#if typeof column.body?.view === "function"}
-                <svelte:component this={column.body.view} {column} {item} />
+                <svelte:component this={column.body.view} {column} {item} {getValue}/>
               {:else if typeof column.body?.value === "function"}
                 <td class={classnames(column.body.classnames)}>{column.body.value.call(column, item)}</td>
               {:else}
-                <td class={classnames(column.body?.classnames)}>{get(item, column.body?.value)}</td>
+                <td class={classnames(column.body?.classnames)}>{getValue(item, column.body?.value)}</td>
               {/if}
             {/each}
           </tr>

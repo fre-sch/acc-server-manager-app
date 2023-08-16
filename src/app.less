@@ -19,7 +19,6 @@ textarea {
 .form-grid {
   display: grid;
   grid-template: auto / max-content 1fr;
-  margin: 0.5rem;
   align-items: top;
   gap: 0.75rem;
 }
@@ -42,4 +41,23 @@ dialog {
 
 dialog > div.title {
   .fs-3;
+}
+
+.form-array-item {
+  display: grid;
+  grid-template: auto / 1fr max-content;
+  align-items: top;
+  .gap-1;
+  .p-2;
+  .mt-2;
+  .mb-2;
+  .rounded;
+  .bg-body-tertiary;
+}
+
+.form-array-item-controls.btn-group-vertical {
+  justify-content: start;
+}
+.form-array-item-controls.btn-group-vertical > button.btn {
+  flex-grow: 0;
 }

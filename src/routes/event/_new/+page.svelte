@@ -1,13 +1,12 @@
 <script>
   import { submitJSON } from "$lib/formHandler.js"
   import { openApiSchema } from "$lib/store"
-  import SchemaFields from "../../../lib/form/schemaFields.svelte"
-  import get from "lodash/get"
+  import SchemaFields from "$lib/form/schemaFields.svelte"
 
   const submit = (formResult) => {
-    console.debug("user form result", formResult)
+    console.debug("form result", formResult)
   }
-  const schema = $openApiSchema.components.schemas.UserCreate
+  const schema = $openApiSchema.ref("#/components/schemas/EventCreateRequest")
 </script>
 
 <form class="form-grid" use:submitJSON={submit}>

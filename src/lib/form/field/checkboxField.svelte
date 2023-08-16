@@ -4,8 +4,8 @@
   export let id;
   export let name;
   export let schema;
-  export let description;
-  export let getFieldValue = (name) => {}
+  export let description = null;
+  export let value;
   export let css = {
     label: "form-check-Label",
     input: "form-check-input"
@@ -21,7 +21,7 @@
   <input
     type="checkbox"
     {name}
-    checked={getFieldValue(name)}
+    checked={Boolean(value)}
     value={true}
     class={
       classnames("form-check-input", css.input)

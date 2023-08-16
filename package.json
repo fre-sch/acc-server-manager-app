@@ -22,6 +22,7 @@
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.9",
+    "json-pointer": "^0.6.2",
     "less": "^4.1.3",
     "lodash": "^4.17.21",
     "postcss-insert": "^1.0.0"

@@ -6,11 +6,34 @@
   import { setCookie } from "$lib/cookies.js"
   import ApiConnector from "$lib/apiConnector.js"
   import isNil from "lodash/isNil"
+  import SchemaRef from "$lib/schema"
+  import { page } from "$app/stores"
 
   let loginDialog;
   export let data;
 
-  openApiSchema.set(data)
+  $: routes = [
+    {
+      title: "Dashboard",
+      href: "/",
+      active: $page.route.id === "/"
+    },
+    {
+      title: "Events",
+      href: "/event",
+      active: $page.route.id.indexOf("/event") === 0
+    },
+    {
+      title: "Users",
+      href: "/user",
+      active: $page.route.id.indexOf("/user") === 0
+    }
+  ]
+
+  openApiSchema.set(
+    new SchemaRef(data, "#/")
+  )
+
 
   function logout () {
     setCookie("token", "", { samesite: "strict", "max-age": -1 })
@@ -88,18 +111,16 @@
 <div class="grid-cols-2">
   <nav class="bg-body-tertiary p-2">
     <ul class="nav nav-pills flex-column">
+      {#each routes as route}
       <li class="nav-item">
-        <a class="nav-link active" href="/">Dashboard</a>
+        <a class="nav-link"
+          class:active={route.active}
+          href={route.href}>{route.title}</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/event">Events</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/user">Users</a>
-      </li>
+      {/each}
     </ul>
   </nav>
-  <main>
+  <main class="p-2">
   <slot />
   </main>
 </div>

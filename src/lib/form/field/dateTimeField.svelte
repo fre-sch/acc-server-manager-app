@@ -3,11 +3,12 @@
 
   export let id;
   export let name;
-  export let label;
-  export let description;
+  export let label = null
+  export let description = null
   export let schema;
-  export let getFieldValue;
+  export let value;
 
+  let step = 1 // enables seconds in date time format
   let type = schema.format == "date-time" ? "datetime-local" : schema.format
 
 </script>
@@ -17,6 +18,7 @@
   {name}
   {label}
   {description}
-  value={getFieldValue(schema.name)}
+  {value}
   {type}
+  {step}
   />

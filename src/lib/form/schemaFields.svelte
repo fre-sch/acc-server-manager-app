@@ -5,8 +5,10 @@
   import DateTimeField from "$lib/form/field/dateTimeField.svelte"
   import SelectField from "$lib/form/field/selectField.svelte"
   import EmailField from "$lib/form/field/emailField.svelte"
+  import ArrayField from "$lib/form/field/arrayField.svelte"
   import Input from "$lib/form/field/input.svelte"
   import startCase from "lodash/startCase"
+  import JsonPointer from "json-pointer"
 
 
   function defaultViews() {
@@ -18,49 +20,16 @@
       [/^(text|string):[^:]*:enum/, SelectField],
       [/^(text|string):email/, EmailField],
       [/^(text|string):/, StringField],
+      [/^array:/, ArrayField],
       [/.*/, Input],
     ]
   }
 
-  function fieldSchemaView (schema) {
-    if (schema.view) return schema.view
-    if (schema.enum) return "enum"
-    return ""
-  }
-
-  function fieldSpec (fieldSchema) {
-    const fieldViewStr = fieldSchemaView(fieldSchema)
-    const spec = `${fieldSchema.type}:${fieldSchema.format || ""}:${fieldViewStr}`
-    return spec
-  }
-
-  function fieldView (fieldSchema, views) {
-    const spec = fieldSpec(fieldSchema)
+  function fieldComponent (fieldSchema, views) {
     const viewEntry = views.find(
-      (item) => item[0].test(spec)
+      (item) => item[0].test(fieldSchema.specifier)
     )
     return viewEntry[1]
-  }
-
-  function schemaProperties(schema) {
-    try {
-      return Object.entries(schema.properties)
-    }
-    catch (error) {
-      console.error("schema object with properties expected, got", schema)
-    }
-    return []
-  }
-
-  function listSchemaFields (schema) {
-    return schemaProperties(schema).map(
-      (entry) => {
-        return {
-          ...entry[1],
-          name: entry[0]
-        }
-      }
-    )
   }
 
   function fieldLabel (fieldSchema) {
@@ -72,19 +41,27 @@
 
   export let views = defaultViews()
   export let schema;
-  export let getFieldValue = (name) => {}
+  export let value = {}
+  export let arrayIndex = null;
 
+  function getFieldValue(obj, path, default_ = null) {
+    // console.debug("getFieldValue", obj, path)
+    try {
+      return JsonPointer.get(obj, path)
+    } catch {
+      return default_
+    }
+  }
 </script>
 
-{#each listSchemaFields(schema) as fieldSchema, idx}
+{#each schema.propertiesList as fieldSchema}
   <svelte:component
-    id={fieldSchema.name}
-    this={fieldView(fieldSchema, views)}
-    key={idx}
-    name={fieldSchema.name}
+    this={fieldComponent(fieldSchema, views)}
+    id={fieldSchema.valuePointer(arrayIndex)}
+    name={fieldSchema.valuePointer(arrayIndex)}
     schema={fieldSchema}
     label={fieldLabel(fieldSchema)}
     description={fieldSchema.description}
-    {getFieldValue}
+    value={getFieldValue(value, fieldSchema.valuePointer(arrayIndex))}
   />
 {/each}

@@ -1,28 +1,29 @@
 <script>
+  import isNil from "lodash/isNil"
   import classnames from "classnames/dedupe"
   import InputGroup from "$lib/form/field/inputGroup.svelte"
 
   export let id;
   export let name;
   export let label;
-  export let description;
-  export let prefix;
-  export let postfix;
   export let type;
+  export let description = null;
+  export let prefix = null;
+  export let postfix = null;
   export let value = null;
-  export let placeholder;
-  export let css;
+  export let placeholder = null;
+  export let css = null;
 
 </script>
 
-{#if (label !== undefined)}
+{#if (!isNil(label))}
   <label for={id} class={classnames("form-label", css?.label)}>
     {label}
   </label>
 {/if}
-{#if (description !== undefined)}
+{#if (!isNil(description))}
   <div class="form-description">
-    <InputGroup prefix={prefix} postfix={postfix}>
+    <InputGroup {prefix} {postfix}>
       <input
         {id}
         {name}

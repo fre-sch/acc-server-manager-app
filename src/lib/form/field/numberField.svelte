@@ -3,10 +3,10 @@
 
   export let id;
   export let name;
-  export let label;
-  export let description;
-  export let schema;
-  export let getFieldValue;
+  export let label = null
+  export let description = null
+  export let schema
+  export let value
 
 </script>
 
@@ -15,7 +15,7 @@
   {name}
   {label}
   {description}
-  value={getFieldValue(schema.name)}
+  {value}
   type="number"
   max={schema.maximum}
   min={schema.minimum}

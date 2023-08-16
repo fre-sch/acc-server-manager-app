@@ -1,5 +1,6 @@
 import isNil from "lodash/isNil"
 import isEmpty from "lodash/isEmpty"
+import JsonPointer from "json-pointer"
 
 export const dispatchEvent = (element, eventName, eventDetails) => {
   element.dispatchEvent(new CustomEvent(eventName, {
@@ -131,5 +132,13 @@ export class StoreUpdatesOnly {
       return updateFn(value)
     this.init = true
     return state
+  }
+}
+
+export function jsonPointerGet(obj, path, default_ = null) {
+  try {
+    return JsonPointer.get(obj, path)
+  } catch {
+    return default_
   }
 }

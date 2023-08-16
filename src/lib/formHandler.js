@@ -1,6 +1,8 @@
-const toObject = (acc, [k, v]) => ((acc[k] = v), acc)
+import JsonPointer from "json-pointer"
 
-export function submitJSON (node, handlerFunction) {
+const toObject = (acc, [k, v]) => (JsonPointer.set(acc, k, v), acc)
+
+export function submitJSON(node, handlerFunction) {
   const submitHandler = (domEvent) => {
     domEvent.preventDefault()
     const formData = new FormData(domEvent.target)
@@ -9,8 +11,8 @@ export function submitJSON (node, handlerFunction) {
   }
   node.addEventListener("submit", submitHandler)
   return {
-    destroy () {
+    destroy() {
       node.removeEventListener("submit", submitHandler)
-    }
+    },
   }
 }
