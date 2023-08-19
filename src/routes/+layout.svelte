@@ -6,7 +6,6 @@
   import { setCookie } from "$lib/cookies.js"
   import ApiConnector from "$lib/apiConnector.js"
   import isNil from "lodash/isNil"
-  import SchemaRef from "$lib/schema"
   import { page } from "$app/stores"
 
   let loginDialog;
@@ -30,9 +29,7 @@
     }
   ]
 
-  openApiSchema.set(
-    new SchemaRef(data, "#/")
-  )
+  openApiSchema.set(data)
 
 
   function logout () {

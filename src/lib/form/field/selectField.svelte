@@ -4,10 +4,10 @@
 
   export let id;
   export let name;
-  export let label = null
-  export let description = null
-  export let schema = null
-  export let getFieldValue = () => {}
+  export let label = null;
+  export let description = null;
+  export let schema = null;
+  export let value;
 
 </script>
 
@@ -19,6 +19,9 @@
 {#if (description !== undefined)}
   <div class="form-description">
     <select {id} {name} class={classnames("form-select")}>
+      {#each schema.enum as optionValue}
+        <option value={optionValue} selected={value===optionValue}>{optionValue}</option>
+      {/each}
     </select>
     <div class="form-text">{ description }</div>
   </div>

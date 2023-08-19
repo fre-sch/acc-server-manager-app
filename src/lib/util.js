@@ -135,9 +135,10 @@ export class StoreUpdatesOnly {
   }
 }
 
-export function jsonPointerGet(obj, path, default_ = null) {
+export function jsonPointerGet(obj, pointer, default_ = null) {
   try {
-    return JsonPointer.get(obj, path)
+    if (pointer.indexOf("#") === 0) pointer = pointer.substring(1)
+    return JsonPointer.get(obj, pointer)
   } catch {
     return default_
   }

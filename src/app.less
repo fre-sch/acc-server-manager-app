@@ -1,13 +1,20 @@
 @import "bootstrap-5.3.0.less";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css");
 
-
 input[type=text],
 input[type="email"],
 input[type=password],
 input[type=number],
+input[type="datetime-local"],
 textarea {
   font-family: monospace;
+}
+
+input.form-control {
+  box-shadow: inset 0 1px 3px 1px fade(black, 10%);
+}
+input.form-control:focus {
+  box-shadow: inset 0 1px 3px 1px fade(black, 10%);
 }
 
 .grid-cols-2 {

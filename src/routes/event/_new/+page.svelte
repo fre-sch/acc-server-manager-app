@@ -1,5 +1,5 @@
 <script>
-  import { submitJSON } from "$lib/formHandler.js"
+  import { submitJson } from "$lib/formHandler.js"
   import { openApiSchema } from "$lib/store"
   import SchemaFields from "$lib/form/schemaFields.svelte"
 
@@ -9,7 +9,7 @@
   const schema = $openApiSchema.ref("#/components/schemas/EventCreateRequest")
 </script>
 
-<form class="form-grid" use:submitJSON={submit}>
+<form class="form-grid" use:submitJson={submit}>
   <SchemaFields schema={schema} />
   <div />
   <div class="form-footer">

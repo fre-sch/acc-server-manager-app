@@ -1,5 +1,5 @@
 <script>
-  import { submitJSON } from "$lib/formHandler.js"
+  import { submitJson } from "$lib/formHandler.js"
   import { page } from "$app/stores"
   import { openApiSchema } from "$lib/store"
   import ApiConnector from "$lib/apiConnector"
@@ -16,15 +16,14 @@
     const response = await ApiConnector.get("/user/" + user_id)
     return response.data
   }
-  const schema = $openApiSchema.ref("#/components/schemas/UserUpdate")
-
+  const schema = jsonPointerGet($openApiSchema, "#/components/schemas/UserUpdate")
 </script>
 
 {#await loadUser()}
 <Spinner/>
 
 {:then data}
-<form class="form-grid" use:submitJSON={submit}>
+<form class="form-grid" use:submitJson={submit}>
   <SchemaFields schema={schema} getFieldValue={(pointer) => jsonPointerGet(data, pointer)} />
   <div />
   <div class="form-footer">

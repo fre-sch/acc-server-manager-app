@@ -1,5 +1,5 @@
 <script>
-  import { submitJSON } from "$lib/formHandler.js"
+  import { submitJson } from "$lib/formHandler.js"
   import { page } from "$app/stores"
   import { openApiSchema } from "$lib/store"
   import ApiConnector from "$lib/apiConnector"
@@ -11,23 +11,34 @@
     console.debug("user form result", formResult)
   }
 
-  async function loadUser() {
+  async function load() {
     const user_id = $page.params.id
     const response = await ApiConnector.get("/event/" + user_id)
     return response.data
   }
-  const schema = $openApiSchema.ref("#/components/schemas/EventUpdateRequest")
+  const schema = jsonPointerGet(
+    $openApiSchema, "#/components/schemas/EventUpdateRequest")
+  schema.properties.sessions.items = jsonPointerGet(
+    $openApiSchema, schema.properties.sessions.items.$ref)
+  console.debug("schema", schema)
+  function getFieldValue(value, path) {
+    return jsonPointerGet(value, path)
+  }
 </script>
 
 
-{#await loadUser()}
+{#await load()}
 <h4>Editing Event ...</h4>
 <Spinner/>
 
 {:then data}
 <h4>Editing Event {data.id}</h4>
-<form class="form-grid" use:submitJSON={submit}>
-  <SchemaFields schema={schema} value={data} />
+<form class="form-grid" use:submitJson={submit}>
+  <SchemaFields
+    {schema}
+    value={data}
+    {getFieldValue}
+  />
   <div />
   <div class="form-footer">
     <button name="save" type="submit" class="btn btn-primary">Save</button>

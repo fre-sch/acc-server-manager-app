@@ -1,5 +1,5 @@
 <script>
-  import { submitJSON } from "$lib/formHandler.js"
+  import { submitJson } from "$lib/formHandler.js"
   // export let submit = () => {}
 </script>
 

@@ -8,7 +8,6 @@
   import ArrayField from "$lib/form/field/arrayField.svelte"
   import Input from "$lib/form/field/input.svelte"
   import startCase from "lodash/startCase"
-  import JsonPointer from "json-pointer"
 
 
   function defaultViews() {
@@ -42,26 +41,47 @@
   export let views = defaultViews()
   export let schema;
   export let value = {}
-  export let arrayIndex = null;
+  export let pointer = "/";
+  export let getFieldValue = (value, fieldName) => {}
 
-  function getFieldValue(obj, path, default_ = null) {
-    // console.debug("getFieldValue", obj, path)
-    try {
-      return JsonPointer.get(obj, path)
-    } catch {
-      return default_
-    }
+  function fieldSchemaView(schema) {
+    if (schema.view !== undefined)
+      return schema.view
+
+    if (schema.enum !== undefined)
+      return "enum"
+
+    return ""
+  }
+
+  function fieldSchemaSpecifier(schema) {
+    schema.view = fieldSchemaView(schema)
+    schema.specifier = `${schema.type}:${schema.format || ""}:${schema.view}`
+    return schema
+  }
+
+  function listProperties(schema) {
+    const properties = Object
+      .entries(schema.properties)
+      .map(([name, fieldSchema]) => fieldSchemaSpecifier({
+        ...fieldSchema,
+        relPointer: "/" + name,
+        absPointer: pointer + name,
+      }))
+    return properties
   }
 </script>
 
-{#each schema.propertiesList as fieldSchema}
+{#each listProperties(schema) as fieldSchema}
   <svelte:component
     this={fieldComponent(fieldSchema, views)}
-    id={fieldSchema.valuePointer(arrayIndex)}
-    name={fieldSchema.valuePointer(arrayIndex)}
+    pointer={fieldSchema.absPointer}
+    id={fieldSchema.absPointer}
+    name={fieldSchema.absPointer}
     schema={fieldSchema}
     label={fieldLabel(fieldSchema)}
     description={fieldSchema.description}
-    value={getFieldValue(value, fieldSchema.valuePointer(arrayIndex))}
+    value={getFieldValue(value, fieldSchema.relPointer)}
+    {getFieldValue}
   />
 {/each}

@@ -2,6 +2,7 @@
   import classnames from "classnames/dedupe"
 
   export let id;
+  export let label;
   export let name;
   export let schema;
   export let description = null;
@@ -10,7 +11,6 @@
     label: "form-check-Label",
     input: "form-check-input"
   }
-  let label = schema.name
 </script>
 
 <label for={id} class={classnames("form-check-label", css.label)}>

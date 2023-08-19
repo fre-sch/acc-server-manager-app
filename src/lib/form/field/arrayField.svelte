@@ -6,11 +6,13 @@
   import { writable } from "svelte/store"
 
   export let id;
+  export let pointer;
   export let name;
   export let label = null
   export let schema;
   export let description = null
   export let value;
+  export let getFieldValue;
   export let css = {}
 
   const value_ = writable(value ?? [])
@@ -60,7 +62,7 @@
     {label}
   </label>
 {/if}
-<div {id} class="form-array">
+<div {id} {name} class="form-array">
   {#if (!isNil(description))}
   <div class="form-description">
     <div class="form-text">{ description }</div>
@@ -77,12 +79,14 @@
     <Icon cls="trash"/> Remove All
   </button>
   {#each $value_ as item, index}
-    <fieldset class="form-array-item">
+    {@const itemPointer = `${pointer}/${index}/`}
+    <fieldset class="form-array-item" name={itemPointer}>
       <div class="form-grid">
         <SchemaFields
           schema={schema.items}
           value={item}
-          arrayIndex={index}
+          pointer={itemPointer}
+          {getFieldValue}
           />
       </div>
       <div class="form-array-item-controls btn-group-vertical">
