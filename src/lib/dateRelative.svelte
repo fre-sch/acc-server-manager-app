@@ -4,7 +4,7 @@
   import relativeTime from 'dayjs/plugin/relativeTime'
   dayjs.extend(relativeTime)
 
-  export let value;
+  export let value
 
   $: day_value = isNil(value) ? "" : dayjs(value).fromNow()
 </script>

@@ -2,12 +2,12 @@
   import classnames from "classnames/dedupe"
   import isNil from "lodash/isNil"
 
-  export let id;
-  export let name;
-  export let label = null;
-  export let description = null;
-  export let schema = null;
-  export let value;
+  export let id
+  export let name
+  export let label = null
+  export let description = null
+  export let schema = null
+  export let value
 
 </script>
 
@@ -20,7 +20,9 @@
   <div class="form-description">
     <select {id} {name} class={classnames("form-select")}>
       {#each schema.enum as optionValue}
-        <option value={optionValue} selected={value===optionValue}>{optionValue}</option>
+        <option
+          value={optionValue}
+          selected={value===optionValue}>{optionValue}</option>
       {/each}
     </select>
     <div class="form-text">{ description }</div>

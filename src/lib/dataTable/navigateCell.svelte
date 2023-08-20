@@ -1,6 +1,6 @@
 <script>
-  export let column;
-  export let item;
+  export let column
+  export let item
 </script>
 
 <td>

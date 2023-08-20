@@ -16,7 +16,8 @@
     const response = await ApiConnector.get("/user/" + user_id)
     return response.data
   }
-  const schema = jsonPointerGet($openApiSchema, "#/components/schemas/UserUpdate")
+  const schema = jsonPointerGet(
+    $openApiSchema, "#/components/schemas/UserUpdate")
 </script>
 
 {#await loadUser()}
@@ -24,7 +25,10 @@
 
 {:then data}
 <form class="form-grid" use:submitJson={submit}>
-  <SchemaFields schema={schema} getFieldValue={(pointer) => jsonPointerGet(data, pointer)} />
+  <SchemaFields
+    schema={schema}
+    getFieldValue={(pointer) => jsonPointerGet(data, pointer)}
+  />
   <div />
   <div class="form-footer">
     <button name="save" type="submit" class="btn btn-primary">Save</button>

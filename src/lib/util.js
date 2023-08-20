@@ -102,7 +102,12 @@ export const formatDuration = (value) => {
   const minutes = Math.floor((value % 3600) / 60)
   const seconds = Math.floor(value % 60)
 
-  return `${postfix(days, "d ")}${postfix(hours, "h ")}${postfix(minutes, "m ")}${postfix(seconds, "s")}`
+  return (
+    postfix(days, "d ")
+    + postfix(hours, "h ")
+    + postfix(minutes, "m ")
+    + postfix(seconds, "s")
+  )
 }
 
 /**
@@ -120,26 +125,12 @@ export const parseDuration = (value) => {
     (parseInt(seconds, 10) || 0)
 }
 
-export class StoreUpdatesOnly {
-  constructor(updateFn) {
-    this.updateFn = updateFn
-    this.init = false
-  }
-
-  onUpdate = (state) => {
-    const {updateFn} = this
-    if (this.init)
-      return updateFn(value)
-    this.init = true
-    return state
-  }
-}
-
 export function jsonPointerGet(obj, pointer, default_ = null) {
   try {
     if (pointer.indexOf("#") === 0) pointer = pointer.substring(1)
     return JsonPointer.get(obj, pointer)
-  } catch {
+  }
+  catch {
     return default_
   }
 }

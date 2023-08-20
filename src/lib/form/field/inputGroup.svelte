@@ -1,8 +1,8 @@
 <script>
   import isNil from "lodash/isNil"
 
-  export let prefix;
-  export let postfix;
+  export let prefix
+  export let postfix
   let isGroup = prefix !== undefined || postfix !== undefined
 </script>
 

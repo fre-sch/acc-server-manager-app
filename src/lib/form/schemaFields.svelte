@@ -39,9 +39,10 @@
   }
 
   export let views = defaultViews()
-  export let schema;
+  export let schema
   export let value = {}
-  export let pointer = "/";
+  export let pointer = "/"
+  // eslint-disable-next-line no-unused-vars
   export let getFieldValue = (value, fieldName) => {}
 
   function fieldSchemaView(schema) {

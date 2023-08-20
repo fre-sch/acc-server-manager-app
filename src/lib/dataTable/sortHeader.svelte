@@ -28,7 +28,7 @@
     return ""
   }
 
-  function click(event) {
+  function click() {
     value.update(nextValue)
     update(column.sortable, $value)
   }
@@ -44,7 +44,9 @@
 </script>
 
 <th class="sorting-header">
-  <a href={"#" + column.sortable} class="nav-link" on:click|preventDefault={click}>
+  <a href={"#" + column.sortable}
+    class="nav-link"
+    on:click|preventDefault={click}>
     {column.header.title}
     &nbsp;
     <Icon cls={iconFromValue($value)} />

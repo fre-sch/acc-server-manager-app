@@ -4,8 +4,9 @@
   import Spinner from "$lib/spinner.svelte"
 
   export let columns = []
-  export let getItems = async function() { return [] }
-  export let rowClicked = () => {}
+  export let getItems = async function() {
+    return []
+  }
   export let getValue = () => {}
 
   function _number(val) {
@@ -43,7 +44,9 @@
               {column}
             />
           {:else}
-            <th class={classnames(column.header?.classnames)}>{column.header?.title}</th>
+            <th class={classnames(column.header?.classnames)}>
+              {column.header?.title}
+            </th>
           {/if}
         {/each}
       </tr>
@@ -62,11 +65,20 @@
           <tr key={index}>
             {#each columns as column}
               {#if typeof column.body?.view === "function"}
-                <svelte:component this={column.body.view} {column} {item} {getValue}/>
+                <svelte:component
+                  this={column.body.view}
+                  {column}
+                  {item}
+                  {getValue}
+                />
               {:else if typeof column.body?.value === "function"}
-                <td class={classnames(column.body.classnames)}>{column.body.value.call(column, item)}</td>
+                <td class={classnames(column.body.classnames)}>
+                  {column.body.value.call(column, item)}
+                </td>
               {:else}
-                <td class={classnames(column.body?.classnames)}>{getValue(item, column.body?.value)}</td>
+                <td class={classnames(column.body?.classnames)}>
+                  {getValue(item, column.body?.value)}
+                </td>
               {/if}
             {/each}
           </tr>

@@ -3,7 +3,9 @@
   import DataTable from "$lib/dataTable/dataTable.svelte"
   import DateRelativeCell from "$lib/dataTable/dateRelativeCell.svelte"
   import NavigateCell from "$lib/dataTable/navigateCell.svelte"
-  import { initSortableColumns, toApiSort, newSortQueryStore } from "$lib/dataTable/utils.js"
+  import {
+    initSortableColumns, toApiSort, newSortQueryStore
+  } from "$lib/dataTable/utils.js"
   import JsonPointer from "json-pointer"
 
   let columns = [
@@ -12,7 +14,8 @@
       body: {
         view: NavigateCell,
         href: (item) => "/event/" + item.id,
-        content: (item) => `${item.id} <i class="ms-1 me-1 bi bi-arrow-up-right-square"/>`
+        content: (item) =>
+          `${item.id} <i class="ms-1 me-1 bi bi-arrow-up-right-square"/>`
       },
       width: 1
     },
@@ -33,7 +36,11 @@
     {
       header: { title: "Sessions", },
       body: {
-        value: (row) => `${row.sessions.length}: ${row.sessions.map(it => it.name).join(", ")}`,
+        value: (row) => (
+          row.sessions.length
+          + ":"
+          + row.sessions.map(it => it.name).join(", ")
+        )
       },
       width: 6,
     },

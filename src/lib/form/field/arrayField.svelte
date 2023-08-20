@@ -5,14 +5,14 @@
   import Icon from "$lib/icon.svelte"
   import { writable } from "svelte/store"
 
-  export let id;
-  export let pointer;
-  export let name;
+  export let id
+  export let pointer
+  export let name
   export let label = null
-  export let schema;
+  export let schema
   export let description = null
-  export let value;
-  export let getFieldValue;
+  export let value
+  export let getFieldValue
   export let css = {}
 
   const value_ = writable(value ?? [])
@@ -90,7 +90,9 @@
           />
       </div>
       <div class="form-array-item-controls btn-group-vertical">
-        <button type="button" class="btn btn-sm btn-light" class:disabled={index == 0}
+        <button type="button"
+          class="btn btn-sm btn-light"
+          class:disabled={index == 0}
           data-item-index={index}
           on:click={moveItemUp}>
           <Icon cls="chevron-up"/>
@@ -100,7 +102,9 @@
           on:click={removeItem}>
           <Icon cls="trash"/>
         </button>
-        <button type="button" class="btn btn-sm btn-light" class:disabled={index==$value_.length-1}
+        <button type="button"
+          class="btn btn-sm btn-light"
+          class:disabled={index==$value_.length-1}
           data-item-index={index}
           on:click={moveItemDown}>
           <Icon cls="chevron-down"/>

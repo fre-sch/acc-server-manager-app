@@ -8,8 +8,8 @@
   import isNil from "lodash/isNil"
   import { page } from "$app/stores"
 
-  let loginDialog;
-  export let data;
+  let loginDialog
+  export let data
 
   $: routes = [
     {
@@ -95,7 +95,8 @@
         </li>
         <li class="nav-item">
           {#if $loginToken}
-            <a href="#" class="nav-link" on:click|preventDefault={logout}>Logout</a>
+            <a href="#" class="nav-link"
+              on:click|preventDefault={logout}>Logout</a>
           {:else}
             <a href="#" class="nav-link">Login</a>
           {/if}

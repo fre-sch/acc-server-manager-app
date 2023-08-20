@@ -3,16 +3,16 @@
   import classnames from "classnames/dedupe"
   import InputGroup from "$lib/form/field/inputGroup.svelte"
 
-  export let id;
-  export let name;
-  export let label;
-  export let type;
-  export let description = null;
-  export let prefix = null;
-  export let postfix = null;
-  export let value = null;
-  export let placeholder = null;
-  export let css = null;
+  export let id
+  export let name
+  export let label
+  export let type
+  export let description = null
+  export let prefix = null
+  export let postfix = null
+  export let value = null
+  export let placeholder = null
+  export let css = null
 
 </script>
 
