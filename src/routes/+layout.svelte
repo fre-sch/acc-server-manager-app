@@ -2,6 +2,7 @@
   import "../app.less"
   import { onMount } from "svelte"
   import LoginForm from "$lib/loginForm.svelte"
+  import SidebarNav from "$lib/sidebarNav.svelte"
   import { loginToken, openApiSchema } from "$lib/store.js"
   import { setCookie } from "$lib/cookies.js"
   import ApiConnector from "$lib/apiConnector.js"
@@ -14,18 +15,51 @@
   $: routes = [
     {
       title: "Dashboard",
+      icon: "speedometer",
       href: "/",
       active: $page.route.id === "/"
     },
     {
+      title: "Server Configs",
+      icon: "server",
+      href: "/server_config",
+      active: $page.route.id.indexOf("/server_config") === 0,
+      children: [
+        {
+          title: "Create server config",
+          icon: "plus-square",
+          href: "/server_config/_new",
+          active: $page.route.id.indexOf("/server_config/_new") === 0,
+        }
+      ]
+    },
+    {
       title: "Events",
+      icon: "card-list",
       href: "/event",
-      active: $page.route.id.indexOf("/event") === 0
+      active: $page.route.id.indexOf("/event") === 0,
+      children: [
+        {
+          title: "Create event",
+          icon: "plus-square",
+          href: "/event/_new",
+          active: $page.route.id.indexOf("/event/_new") === 0,
+        }
+      ]
     },
     {
       title: "Users",
+      icon: "people",
       href: "/user",
-      active: $page.route.id.indexOf("/user") === 0
+      active: $page.route.id.indexOf("/user") === 0,
+      children: [
+        {
+          title: "Create user",
+          icon: "plus-square",
+          href: "/user/_new",
+          active: $page.route.id.indexOf("/user/_new") === 0,
+        }
+      ]
     }
   ]
 
@@ -107,17 +141,7 @@
 </nav>
 
 <div class="grid-cols-2">
-  <nav class="bg-body-tertiary p-2">
-    <ul class="nav nav-pills flex-column">
-      {#each routes as route}
-      <li class="nav-item">
-        <a class="nav-link"
-          class:active={route.active}
-          href={route.href}>{route.title}</a>
-      </li>
-      {/each}
-    </ul>
-  </nav>
+  <SidebarNav {routes} />
   <main class="p-2">
   <slot />
   </main>
