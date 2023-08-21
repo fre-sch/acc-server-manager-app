@@ -11,23 +11,20 @@
     console.debug("user form result", formResult)
   }
 
-  async function load() {
-    const user_id = $page.params.id
-    const response = await ApiConnector.get("/event/" + user_id)
+  async function fetchData() {
+    const event_id = $page.params.id
+    const response = await ApiConnector.get("/event/" + event_id)
     return response.data
   }
   const schema = jsonPointerGet(
     $openApiSchema, "#/components/schemas/EventUpdateRequest")
   schema.properties.sessions.items = jsonPointerGet(
     $openApiSchema, schema.properties.sessions.items.$ref)
-  console.debug("schema", schema)
-  function getFieldValue(value, path) {
-    return jsonPointerGet(value, path)
-  }
+
 </script>
 
 
-{#await load()}
+{#await fetchData()}
 <h4>Editing Event ...</h4>
 <Spinner/>
 
@@ -37,7 +34,7 @@
   <SchemaFields
     {schema}
     value={data}
-    {getFieldValue}
+    getFieldValue={jsonPointerGet}
   />
   <div />
   <div class="form-footer">

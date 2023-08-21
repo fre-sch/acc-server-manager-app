@@ -11,7 +11,7 @@
     console.debug("user form result", formResult)
   }
 
-  async function loadUser() {
+  async function fetchData() {
     const user_id = $page.params.id
     const response = await ApiConnector.get("/user/" + user_id)
     return response.data
@@ -20,14 +20,17 @@
     $openApiSchema, "#/components/schemas/UserUpdate")
 </script>
 
-{#await loadUser()}
+{#await fetchData()}
+<h2>Editing User ...</h2>
 <Spinner/>
 
 {:then data}
+<h2>Editing User {data.id}</h2>
 <form class="form-grid" use:submitJson={submit}>
   <SchemaFields
     schema={schema}
-    getFieldValue={(pointer) => jsonPointerGet(data, pointer)}
+    value={data}
+    getFieldValue={jsonPointerGet}
   />
   <div />
   <div class="form-footer">
