@@ -1,8 +1,8 @@
 <script>
-  export let submit = () => {}
+  export let submit;
 </script>
 
-<form class="form-grid" on:submit={submit}>
+<form class="form-grid" on:submit>
   <label for="login-username">Username</label>
   <input class="form-control" id="login-username" name="username" type="text"
     autocomplete="username"/>

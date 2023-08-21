@@ -1,5 +1,6 @@
 <script>
   import classnames from "classnames/dedupe"
+  import isEmpty from "lodash/isEmpty"
 
   export let id
   export let label
@@ -27,7 +28,7 @@
       classnames("form-check-input", css.input)
     }
   />
-  {#if (description !== undefined)}
-  <div class="form-description">{description}</div>
+  {#if (!isEmpty(description))}
+  <span class="form-text">{description}</span>
   {/if}
 </div>

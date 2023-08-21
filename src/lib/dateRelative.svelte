@@ -9,4 +9,4 @@
   $: day_value = isNil(value) ? "" : dayjs(value).fromNow()
 </script>
 
-<span class="date-relative" title={value}>{ day_value }</span>
+<span class="date-relative" title={value} {...$$restProps}>{ day_value }</span>

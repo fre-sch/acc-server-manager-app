@@ -52,7 +52,7 @@
       </tr>
     </thead>
     {#await getItems}
-      <tbody>
+      <tbody class="error">
         <tr>
           <td colspan={columns.length}>
             <Spinner/>
@@ -60,7 +60,7 @@
         </tr>
       </tbody>
     {:then items}
-      <tbody>
+      <tbody class="data">
         {#each items as item, index}
           <tr key={index}>
             {#each columns as column}
@@ -83,6 +83,17 @@
             {/each}
           </tr>
         {/each}
+      </tbody>
+    {:catch error}
+      <tbody class="error">
+        <tr>
+          <td colspan={columns.length}>
+            {#if error.response.status == 404}
+            <strong>Not found</strong>
+            <pre>{error.response.body}</pre>
+            {/if}
+          </td>
+        </tr>
       </tbody>
     {/await}
   </table>

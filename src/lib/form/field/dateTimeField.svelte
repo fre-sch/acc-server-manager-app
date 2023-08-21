@@ -1,5 +1,6 @@
 <script>
   import Input from "$lib/form/field/input.svelte"
+  import DateRelative from "$lib/dateRelative.svelte"
 
   export let id
   export let name
@@ -13,12 +14,17 @@
 
 </script>
 
-<Input
-  {id}
-  {name}
-  {label}
-  {description}
-  {value}
-  {type}
-  {step}
-  />
+{#if schema.view === "view-only"}
+  <label for={id}>{label}</label>
+  <div><DateRelative {id} {value} /></div>
+{:else}
+  <Input
+    {id}
+    {name}
+    {label}
+    {description}
+    {value}
+    {type}
+    {step}
+    />
+{/if}
