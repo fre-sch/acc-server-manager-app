@@ -13,37 +13,44 @@
   export let value = null
   export let placeholder = null
   export let css = null
+  export let required = false
+  export let validationResults = null
+  export let getFieldValue = null
+
+  $: isInvalid = validationResults?.length > 0
+  $: validationMessages = validationResults?.map(it => it.msg) ?? []
 
 </script>
 
 {#if (!isNil(label))}
-  <label for={id} class={classnames("form-label", css?.label)}>
+  <label for={id}
+    class={classnames("form-label", css?.label)}
+    class:required>
     {label}
   </label>
 {/if}
-{#if (!isNil(description))}
-  <div class="form-description">
-    <InputGroup {prefix} {postfix}>
-      <input
-        {id}
-        {name}
-        class={classnames("form-control", css?.input)}
-        {type}
-        {value}
-        {placeholder}
-        {...$$restProps}
-      />
-    </InputGroup>
-    <div class="form-text">{ description }</div>
+
+<div class="form-item">
+  <InputGroup {prefix} {postfix}>
+    <input
+      {id}
+      {name}
+      class={classnames("form-control", css?.input)}
+      class:is-invalid={isInvalid}
+      {type}
+      {value}
+      {placeholder}
+      aria-describedby={`${id}/description ${id}/validation`}
+      {required}
+      {...$$restProps}
+    />
+  </InputGroup>
+  <div id={`${id}/validation`} class="invalid-feedback">
+    {#each validationMessages as message}
+      <p>{message}</p>
+    {/each}
   </div>
-{:else}
-  <input
-    {id}
-    {name}
-    class={classnames("form-control", css?.input)}
-    {type}
-    {value}
-    {placeholder}
-    {...$$restProps}
-  />
-{/if}
+  {#if (!isNil(description))}
+  <div id={`${id}/description`} class="form-text">{ description }</div>
+  {/if}
+</div>

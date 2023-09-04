@@ -8,13 +8,15 @@
   export let schema
   export let description = null
   export let value
+  export let required = false
   export let css = {
     label: "form-check-Label",
     input: "form-check-input"
   }
 </script>
 
-<label for={id} class={classnames("form-check-label", css.label)}>
+<label for={id}
+  class={classnames("form-check-label", css.label)}>
   {label}
 </label>
 <div>

@@ -26,5 +26,6 @@
     {value}
     {type}
     {step}
-    />
+    {...$$restProps}
+  />
 {/if}

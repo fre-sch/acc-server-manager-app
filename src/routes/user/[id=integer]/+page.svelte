@@ -6,6 +6,7 @@
   import Spinner from "$lib/spinner.svelte"
   import SchemaFields from "$lib/form/schemaFields.svelte"
   import { jsonPointerGet } from "$lib/util"
+  import resolved from "$lib/schema"
 
   const submit = (formResult) => {
     console.debug("user form result", formResult)
@@ -16,8 +17,9 @@
     const response = await ApiConnector.get("/user/" + user_id)
     return response.data
   }
-  const schema = jsonPointerGet(
-    $openApiSchema, "#/components/schemas/UserUpdate")
+  const schema = resolved(
+    {"$ref": "#/components/schemas/UserUpdate"},
+    $openApiSchema)
 </script>
 
 {#await fetchData()}

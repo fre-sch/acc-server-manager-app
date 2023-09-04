@@ -1,16 +1,16 @@
 <script>
   import { submitJson } from "$lib/formHandler.js"
   import { openApiSchema } from "$lib/store"
-  import Spinner from "$lib/spinner.svelte"
   import SchemaFields from "$lib/form/schemaFields.svelte"
-  import {jsonPointerGet} from "$lib/util"
+  import resolved from "$lib/schema"
 
   const submit = (formResult) => {
     console.debug("user form result", formResult)
   }
 
-  const schema = jsonPointerGet(
-    $openApiSchema, "#/components/schemas/UserCreate")
+  const schema = resolved(
+    {"$ref": "#/components/schemas/UserCreate"},
+    $openApiSchema)
 </script>
 
 <h2>Create User</h2>

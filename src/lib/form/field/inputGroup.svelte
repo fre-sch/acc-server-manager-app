@@ -3,7 +3,7 @@
 
   export let prefix
   export let postfix
-  let isGroup = prefix !== undefined || postfix !== undefined
+  let isGroup = !(isNil(prefix) && isNil(postfix))
 </script>
 
 {#if (isGroup)}

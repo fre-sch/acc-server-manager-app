@@ -6,23 +6,33 @@
   import Spinner from "$lib/spinner.svelte"
   import SchemaFields from "$lib/form/schemaFields.svelte"
   import {jsonPointerGet} from "$lib/util"
+  import resolved from "$lib/schema"
+  import { writable } from "svelte/store"
+
+  let entityId = $page.params.id
+  let validationResults = writable(null)
 
   const submit = (formResult) => {
-    console.debug("user form result", formResult)
+    ApiConnector.post(`/server_config/${entityId}`, formResult)
+    .then(response => {
+      console.debug(response)
+    })
+    .catch(error => {
+      if (error.response.status === 422) {
+        $validationResults = error.response.data.detail
+      }
+    })
   }
 
   async function load() {
-    const user_id = $page.params.id
-    const response = await ApiConnector.get("/event/" + user_id)
+    const response = await ApiConnector.get(`/server_config/${entityId}`)
     return response.data
   }
 
-  const schema = jsonPointerGet(
-    $openApiSchema, "#/components/schemas/ServerConfigUpdate")
+  const schema = resolved(
+    {"$ref": "#/components/schemas/ServerConfigUpdate"},
+    $openApiSchema)
 
-  function getFieldValue(value, path) {
-    return jsonPointerGet(value, path)
-  }
 </script>
 
 
@@ -36,7 +46,8 @@
   <SchemaFields
     {schema}
     value={data}
-    {getFieldValue}
+    validationResults={$validationResults}
+    getFieldValue={jsonPointerGet}
   />
   <div />
   <div class="form-footer">

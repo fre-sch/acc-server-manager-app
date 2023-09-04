@@ -7,7 +7,6 @@
   export let description = null
   export let schema
   export let value
-
 </script>
 
 <Input
@@ -20,4 +19,5 @@
   max={schema.maximum}
   min={schema.minimum}
   step={schema.multipleOf}
+  {...$$restProps}
   />

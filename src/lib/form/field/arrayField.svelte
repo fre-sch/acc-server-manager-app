@@ -46,7 +46,7 @@
 
   function addNewItem() {
     value_.update((current) => {
-      current.push({})
+      current.push(null)
       return current
     })
   }

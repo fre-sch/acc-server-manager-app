@@ -8,26 +8,47 @@
   export let description = null
   export let schema = null
   export let value
+  export let required = false
+  export let validationResults = null
+
+  $: isInvalid = validationResults?.length > 0
+  $: validationMessages = validationResults?.map(it => it.msg) ?? []
 
 </script>
 
 {#if (!isNil(label))}
-  <label for={id} class={classnames("form-label")}>
+  <label for={id} class="form-label"
+    class:required>
     {label}
   </label>
 {/if}
-{#if (description !== undefined)}
-  <div class="form-description">
-    <select {id} {name} class={classnames("form-select")}>
+<div class="form-item">
+  <select
+    {id}
+    {name}
+    class={classnames("form-select")}
+    {required}
+    aria-describedby={`${id}/description ${id}/validation`}>
+    {#if isNil(schema.options)}
       {#each schema.enum as optionValue}
         <option
           value={optionValue}
           selected={value===optionValue}>{optionValue}</option>
       {/each}
-    </select>
-    <div class="form-text">{ description }</div>
-  </div>
-{:else}
-  <select {id} {name} class={classnames("form-select")}>
+    {:else}
+      {#each schema.options as option}
+        <option
+          value={option.value}
+          selected={value===option.value}>{option.label}</option>
+      {/each}
+    {/if}
   </select>
-{/if}
+  <div id={`${id}/validation`} class="invalid-feedback">
+    {#each validationMessages as message}
+      <p>{message}</p>
+    {/each}
+  </div>
+  {#if !isNil(description)}
+    <div id={`${id}/description`} class="form-text">{ description }</div>
+  {/if}
+</div>

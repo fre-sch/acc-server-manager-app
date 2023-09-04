@@ -142,7 +142,7 @@
 
 <div class="grid-cols-2">
   <SidebarNav {routes} />
-  <main class="p-2">
+  <main class="mt-2 mb-2 me-2">
   <slot />
   </main>
 </div>

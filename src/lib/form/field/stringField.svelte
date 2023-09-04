@@ -17,4 +17,5 @@
   {description}
   {value}
   type="text"
-  />
+  {...$$restProps}
+/>

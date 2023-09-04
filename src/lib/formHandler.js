@@ -4,11 +4,12 @@ const toObjectByPointer = (acc, [k, v]) => (JsonPointer.set(acc, k, v), acc)
 const toFlatObject = (acc, [k, v]) => ((acc[k] = v), acc)
 
 export function submitJson(node, handlerFunction) {
-  const submitHandler = (domEvent) => {
-    domEvent.preventDefault()
-    const formData = new FormData(domEvent.target)
+  const submitHandler = (submitEvent) => {
+    submitEvent.preventDefault()
+    const formData = new FormData(submitEvent.target)
     const formValue = Array.from(formData).reduce(toObjectByPointer, {})
-    handlerFunction(formValue)
+    formValue[":action"] = submitEvent.submitter.name
+    handlerFunction(formValue, submitEvent)
   }
   node.addEventListener("submit", submitHandler)
   return {
@@ -19,11 +20,12 @@ export function submitJson(node, handlerFunction) {
 }
 
 export function submitJsonFlat(node, handlerFunction) {
-  const submitHandler = (domEvent) => {
-    domEvent.preventDefault()
-    const formData = new FormData(domEvent.target)
+  const submitHandler = (submitEvent) => {
+    submitEvent.preventDefault()
+    const formData = new FormData(submitEvent.target)
     const formValue = Array.from(formData).reduce(toFlatObject, {})
-    handlerFunction(formValue)
+    formValue[":action"] = submitEvent.submitter.name
+    handlerFunction(formValue, submitEvent)
   }
   node.addEventListener("submit", submitHandler)
   return {

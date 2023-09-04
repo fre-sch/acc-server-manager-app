@@ -18,4 +18,5 @@
   {description}
   {value}
   type="email"
+  {...$$restProps}
   />

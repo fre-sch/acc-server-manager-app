@@ -68,3 +68,16 @@ dialog > div.title {
 .form-array-item-controls.btn-group-vertical > button.btn {
   flex-grow: 0;
 }
+
+.form-object {
+  grid-column: 1 / span 2;
+  .p-2;
+  .mt-2;
+  .mb-2;
+  .rounded;
+  .bg-body-tertiary;
+}
+
+label.required::after {
+  content: " *"
+}
